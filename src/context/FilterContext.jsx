@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer } from "react"
 import { filterReducers } from "../reducers";
 
 const filterInitialState = {
-    productList: [],
+    productList: [], //initial empty
     onlyInStock: false,
     bestSellerOnly: false,
     sortBy: null,
@@ -14,6 +14,8 @@ const FilterContext = createContext(filterInitialState);
 export const FilterProvider = ({children}) => {
     const [state, dispatch] = useReducer(filterReducers, filterInitialState);
 
+
+    //fetching the products and add them to productList
     function initialProductLists(products){
         dispatch({
             type: "PRODUCT_LIST",
@@ -23,8 +25,10 @@ export const FilterProvider = ({children}) => {
         });
     }
 
+     //getting the values dispatch from the filterbar and then updating the state that is bestSeller in the filterReducer to true so the bestSellerOnly in 
+     //filterinitialList will  become true and then the function bestSeller get excuted and filter out the products//
     function bestSeller(products){
-        return state.bestSellerOnly ? products.filter(product => product.best_seller === true) : products;
+        return state.bestSellerOnly ? products.filter(product => product.best_seller === true) : products; //if true return filtered products else products
     }
 
     function inStock(products){

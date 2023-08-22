@@ -13,13 +13,14 @@ export const filterReducers = (state, action) => {
             return
 
         case 'RATINGS':
-            return
+            return {...state, ratings: payload.ratings}
 
+        //getting the values dispatch from the filterbar and then updating the state that is bestSeller to true and then the function bestSeller get excuted and filter out the products
         case 'BEST_SELLER_ONLY':
-            return { ...state, bestSellerOnly: payload.bestSellerOnly };
+            return { ...state, bestSellerOnly: payload.bestSellerOnly }; //accessing payload from within the filterbar
 
         case 'ONLY_IN_STOCK':
-            return
+            return {...state, onlyInStock: payload.onlyInStock}
     
         case 'CLEAR-FILTER':
             return
