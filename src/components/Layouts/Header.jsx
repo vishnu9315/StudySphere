@@ -3,8 +3,10 @@ import Logo from '../../assets/logo.png'
 import { useEffect, useState } from 'react'
 import { Search } from '../Sections/Search'
 import { DropDownLoggedOut, DropDownLoggedIn } from '../index'
+import { useCart } from '../../context'
 
 export const Header = () => {
+    const {cartList} = useCart()
     const  [theme, setTheme] = useState(JSON.parse(localStorage.getItem("darkMode")) || false)
     const [searchSection, setSearchSection] = useState(false);
     const [dropdown, setDropDown] = useState(false)
@@ -34,12 +36,12 @@ export const Header = () => {
                        
                         <Link to="/cart" className="text-gray-700 dark:text-white mr-5">
                             <span className="text-2xl bi bi-cart-fill relative">
-                                <span className="text-white text-sm absolute -top-1 left-2.5 bg-rose-500 px-1 rounded-full "></span>
+                                <span className="text-white text-sm absolute -top-1 left-2.5 bg-rose-500 px-1 rounded-full">{cartList.length}</span>
                             </span>
                         </Link>
 
                         <span onClick={() => setDropDown(!dropdown)} className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"></span>
-                        {dropdown && (token ? <DropDownLoggedIn />:<DropDownLoggedOut />)} {/*if we have token then show loggedIn component else show LoggedOut component */}
+                        {dropdown && (token ? <DropDownLoggedIn setDropDown = {setDropDown} /> : <DropDownLoggedOut setDropDown = {setDropDown} />)} {/*if we have token then show loggedIn component else show LoggedOut component */}
                     </div>
                 </div>
             </nav>
