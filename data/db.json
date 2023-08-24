@@ -250,6 +250,12 @@
       "password": "$2a$10$TA1pGoz7ELTKJaKbmVZNyeya4FCJvckyHmVTv.c4lq6j.aEjgppq.",
       "name": "vishnu",
       "id": 2
+    },
+    {
+      "email": "alex21@gmail.com",
+      "password": "$2a$10$pT6QgCMf.KMe5K7ZsMlK5utGgcRbJg5.2jnrzME/XshOL56isLnku",
+      "name": "Alex T",
+      "id": 3
     }
   ]
 }

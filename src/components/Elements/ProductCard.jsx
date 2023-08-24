@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Rating } from './Rating';
 import { useCart } from '../../context';
@@ -7,6 +7,18 @@ import { useCart } from '../../context';
 export const ProductCard = ({product}) => {
     const { cartList, addToCart, removeFromCart } = useCart();
     const {id,name,overview,poster,price,rating,best_seller} = product;
+    const [itemExistsInCart, setItemExistsInCart] = useState(false);
+    
+    useEffect(() => {
+        const existedProduct = cartList.find((item) => item.id === id)
+
+        if(existedProduct){
+            setItemExistsInCart(true)
+        }else{
+            setItemExistsInCart(false)
+        }
+
+    }, [cartList, id])
 
   return (
     <div className="m-3 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -28,8 +40,8 @@ export const ProductCard = ({product}) => {
             <span className="text-2xl dark:text-gray-200">
                 <span>$</span><span>{price}</span>
             </span>
-             <button onClick={() => addToCart(product)} className='inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800' disabled="">Add To Cart <i className="ml-1 bi bi-plus-lg"></i></button> 
-             {/* <button onClick={() => removeFromCart(product)} className= 'inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800' disabled="">Remove Item <i className="ml-1 bi bi-trash3"></i></button>  */}
+            { !itemExistsInCart && <button onClick={() => addToCart(product)} className={`inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 ${product.in_stock ? "" : "cursor-not-allowed"}`} disabled={ product.in_stock ? "" : "disabled" }>Add To Cart <i className="ml-1 bi bi-plus-lg"></i></button> }  
+            { itemExistsInCart && <button onClick={() => removeFromCart(product)} className={`inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 ${product.in_stock ? "" : "cursor-not-allowed"}`} disabled={ product.in_stock ? "" : "disabled" }>Remove Item <i className="ml-1 bi bi-trash3"></i></button> } 
         </p>
     </div>
 </div>

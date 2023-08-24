@@ -5,7 +5,7 @@ import { useCart } from '../../../context'
 export const CartList = () => {
 
     const [checkOut, setCheckOut] = useState(false)
-    const { cartList, total } = useCart();
+    const { cartList, total, clearCart } = useCart();
   return (
     <>
       <section>
@@ -34,7 +34,7 @@ export const CartList = () => {
         </div>
       </section>
 
-      {checkOut && (<CartCheckout setCheckOut = {setCheckOut}/>)}
+      {checkOut && (<CartCheckout total = {total} setCheckOut = {setCheckOut} cartList={cartList} clearCart = {clearCart}/>)}
       
     </>
   )
