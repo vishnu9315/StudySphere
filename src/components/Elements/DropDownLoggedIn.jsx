@@ -1,19 +1,29 @@
 import { Link, useNavigate } from "react-router-dom"
+import { getUser, logout } from "../../services"
+import { useEffect, useState } from "react"
 
 export const DropDownLoggedIn = ({setDropDown}) => {
+    const [user, setUser] = useState([])
     const navigate = useNavigate()
 
+    useEffect(() => {
+        async function fetchData(){
+            const data = await getUser();
+            //if there is email that means it logged in but if email is undefined or null empty that means user is logged out so we are calling handlelogout function
+            data.email ? setUser(data) : handleLogout();
+        }
+        fetchData()
+    }, [])
     //if clicked on logout button we will clear the session storage that is token and id and redirect user to homepage
     const handleLogout = () => {
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("scid");
+        logout();
         setDropDown(false);
         navigate('/');
     }
   return (
     <div id="dropdownAvatar" className="select-none	absolute top-10 right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
         <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
-            <div className="font-medium truncate">vspn001@gmail.com</div>
+            <div className="font-medium truncate">{user.email}</div>
         </div>
         <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
             <li>
