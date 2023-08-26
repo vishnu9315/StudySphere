@@ -18,7 +18,7 @@ export const DropDownLoggedIn = ({setDropDown}) => {
             }
         }
         fetchData()
-    }, [])
+    }, []) //eslint-disable-line
     //if clicked on logout button we will clear the session storage that is token and id and redirect user to homepage
     const handleLogout = () => {
         logout();
