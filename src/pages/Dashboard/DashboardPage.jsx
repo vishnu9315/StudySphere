@@ -2,19 +2,24 @@ import { useState, useEffect } from "react"
 import { DashboardCart } from "./components/DashboardCart"
 import { DashboardEmpty } from "./components/DashboardEmpty"
 import { getUserOrders } from "../../services"
+import { useTitle } from "../../hooks/useTitle"
+import { toast } from 'react-toastify'
 
 export const DashboardPage = () => {
     const [orders, setOrders] = useState([])
-    
+    useTitle("Dashboard")
     
     useEffect(() => {
 
         //getting the product and displaying it on the dashboard
         async function getProducts() {
-           
+           try{
             const data = await getUserOrders();
             //setting the order
             setOrders(data)
+           }catch(error){
+            toast.error(error.message, { closeButton: true, position: "bottom-center" });
+           }
         }
         getProducts()
     }, [])

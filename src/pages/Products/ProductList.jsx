@@ -4,6 +4,8 @@ import {FilterBar} from './components/FilterBar'
 import { useLocation } from 'react-router-dom'
 import { useTitle } from '../../hooks/useTitle'
 import { useFilter } from '../../context'
+import { getProductList } from '../../services'
+import { toast } from "react-toastify";
 export const ProductList = () => {
   const [show, setShow] = useState(false)
   // const [products, setProducts] = useState([])
@@ -15,13 +17,16 @@ export const ProductList = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch(`http://localhost:8000/products?name_like=${searchTerm ? searchTerm : ""}`); //if searchVaue exits then search that value else pass nothing and return all the products
-      const data = await response.json();
+     try{
+      const data = await getProductList(searchTerm);
       initialProductLists(data);
-      // setProducts(data)
+     }catch(error){
+      toast.error(error.message, {closeButton: true, position: "bottom-center" });
+     }
+      
     }
     fetchProducts();
-  },[searchTerm])
+  },[searchTerm]) //eslint-disable-line
 
   return (
     <main>

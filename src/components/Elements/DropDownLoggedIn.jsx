@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { getUser, logout } from "../../services"
 import { useEffect, useState } from "react"
+import {toast} from 'react-toastify'
 
 export const DropDownLoggedIn = ({setDropDown}) => {
     const [user, setUser] = useState([])
@@ -8,9 +9,13 @@ export const DropDownLoggedIn = ({setDropDown}) => {
 
     useEffect(() => {
         async function fetchData(){
+            try{
             const data = await getUser();
             //if there is email that means it logged in but if email is undefined or null empty that means user is logged out so we are calling handlelogout function
             data.email ? setUser(data) : handleLogout();
+            }catch(error){
+                toast.error(error.message, { closeButton: true, position: "bottom-center" });
+            }
         }
         fetchData()
     }, [])
